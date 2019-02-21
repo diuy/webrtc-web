@@ -1,0 +1,79 @@
+<configuration scan="true" scanPeriod=" 5 seconds">
+    <jmxConfigurator/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/info.log</File>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>logs/info-%d{yyyy-MM-dd}-%i.log.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>128MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/error.log</File>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>logs/error-%d{yyyy-MM-dd}-%i.log.gz
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>128MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{56} [%caller{1}] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--<logger name="com.alibaba.otter.canal" additivity="false">-->
+    <!--<level value="INFO"/>-->
+    <!--<appender-ref ref="STDOUT"/>-->
+    <!--<appender-ref ref="FILE_CANAL"/>-->
+    <!--</logger>-->
+    <logger name="com.fortis.drug.Bootstrap">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="com.fortis.drug.DrugSearchServer">
+        <level value="INFO"/>
+    </logger>
+    <logger name="com.fortis.drug.FullTextIndexer">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.apache">
+        <level value="WARN"/>
+    </logger>
+    <logger name="com.alibaba.dubbo">
+        <level value="WARN"/>
+    </logger>
+
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_ERROR"/>
+    </root>
+</configuration>

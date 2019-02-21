@@ -1,0 +1,8 @@
+{
+  "candidate": {
+    "candidate": "candidate:1625525246 1 tcp 1518275327 2001::9d38:6abd:2476:b4d7:5422:d31a 9 typ host tcptype active generation 1 ufrag K6bJ network-id 1 network-cost 50",
+    "sdpMid": "0",
+    "sdpMLineIndex": 0,
+    "usernameFragment": "K6bJ"
+  }
+}
