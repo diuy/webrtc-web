@@ -101,7 +101,7 @@ async function onMessage({desc, candidate}) {
             // if we get an offer, we need to reply with an answer
             if (desc.type == 'offer') {
 
-                console.info("setRemoteDescription");
+                console.info("offer");
                 await pc.setRemoteDescription(desc);
                 const stream = await navigator.mediaDevices.getUserMedia(constraints);
                 stream.getTracks().forEach((track) => pc.addTrack(track, stream));
@@ -109,11 +109,13 @@ async function onMessage({desc, candidate}) {
                 sendData({desc: pc.localDescription});
                 selfView.srcObject = stream;
             } else if (desc.type == 'answer') {
+                console.info("answer");
                 await pc.setRemoteDescription(desc);
             } else {
                 console.log('Unsupported SDP type. Your code may differ here.');
             }
         } else if (candidate) {
+            console.info("candidate");
             //console.info(JSON.stringify(candidate))
             await pc.addIceCandidate(candidate);
         }

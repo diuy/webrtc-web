@@ -14,7 +14,18 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class ExchangeServer {
     static final Logger logger = LoggerFactory.getLogger(ExchangeServer.class);
     private static Set<Session> sessions = new CopyOnWriteArraySet<>();
-
+    public static void sendMessage(String message,Session session){
+        for (Session s : sessions) {
+            if (s != session) {
+                try {
+                    s.getBasicRemote().sendText(message);
+                    System.out.println("send to :" + s.getId());
+                } catch (IOException e) {
+                    System.out.println("send to :" + s.getId() + ",failed");
+                }
+            }
+        }
+    }
     @OnOpen
     public void onOpen(Session session) {
         //logger.error("*************");
@@ -33,16 +44,8 @@ public class ExchangeServer {
         //   System.out.println("message:" + session.getId() + "\n" + message);
         System.out.println("message:" + session.getId());
 
-        for (Session s : sessions) {
-            if (s != session) {
-                try {
-                    s.getBasicRemote().sendText(message);
-                    System.out.println("send to :" + s.getId());
-                } catch (IOException e) {
-                    System.out.println("send to :" + s.getId() + ",failed");
-                }
-            }
-        }
+        sendMessage(message,session);
+        TcpServer.sendMessage(message,null);
     }
 
     @OnError
